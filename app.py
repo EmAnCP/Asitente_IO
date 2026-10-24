@@ -4,23 +4,25 @@ import numpy as np
 from pulp import LpMaximize, LpProblem, LpVariable, PULP_CBC_CMD
 
 # Configuración básica de la página
-st.set_page_config(page_title="Asistente IO - UMG", page_icon="📊", layout="wide")
+st.set_page_config(page_title="ASISTENTE IO", page_icon="🤖", layout="wide")
 
-# Barra lateral con los datos obligatorios
-st.sidebar.header("Datos del Grupo")
-st.sidebar.text("Asignatura: Investigación de Operaciones")
-st.sidebar.text("Universidad Mariano Gálvez")
+# Barra lateral limpia sin referencias institucionales
+st.sidebar.header("Panel de Control")
+st.sidebar.text("Asistente Académico")
+st.sidebar.markdown("---")
+st.sidebar.info("Usa las pestañas para navegar entre los módulos de resolución automática y consulta libre.")
 
-st.title("🤖 Asistente Virtual Académico - Investigación de Operaciones")
-st.write("Bienvenido. Utiliza las pestañas superiores para navegar por los módulos de resolución.")
+st.title("🤖 ASISTENTE IO")
+st.write("Bienvenido. Utiliza las pestañas superiores para navegar por los módulos de cálculo o plantear tus propios problemas.")
 
-# Pestañas principales requeridas por la rúbrica
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+# Pestañas principales (se añade una nueva para consultas y problemas personalizados)
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📈 Método Gráfico", 
     "⚡ Método Simplex", 
     "🚚 Transporte y Asignación", 
     "📦 Inventarios (EOQ)", 
-    "✍️ Práctica y Retroalimentación"
+    "✍️ Práctica y Retroalimentación",
+    "📝 Consultas y Problemas"
 ])
 
 with tab1:
@@ -104,4 +106,30 @@ with tab5:
             st.success("¡Respuesta Correcta! Excelente dominio del concepto.")
         else:
             st.error("Incorrecto. Recuerda que la función objetivo modela la optimización (maximizar ganancias o minimizar costos).")
-            
+
+with tab6:
+    st.header("📝 Consultas y Resolución de Problemas Matemáticos")
+    st.write("Escribe tus ecuaciones, plantea tus problemas de Investigación de Operaciones o sube una imagen con tus ejercicios.")
+    
+    # Apartado para escribir ecuaciones u operaciones
+    problema_texto = st.text_area(
+        "Escribe aquí tu problema matemático, ecuaciones o planteamiento:",
+        placeholder="Ejemplo: Maximizar Z = 50x + 80y sujeto a 2x + y <= 120..."
+    )
+    
+    # Apartado para subir imágenes o archivos con ejercicios
+    archivo_subido = st.file_uploader(
+        "Sube una imagen o archivo con el ejercicio (PNG, JPG, JPEG, PDF):",
+        type=["png", "jpg", "jpeg", "pdf"]
+    )
+    
+    if archivo_subido is not None:
+        st.image(archivo_subido, caption="Imagen del ejercicio cargada con éxito.", use_container_width=True)
+    
+    if st.button("Analizar y Resolver Problema"):
+        if problema_texto.strip() != "" or archivo_subido is not None:
+            st.success("¡Problema recibido con éxito en ASISTENTE IO!")
+            st.info("Procesando la información ingresada...")
+            # Aquí puedes integrar lógica adicional si deseas conectar una IA o un solucionador en el futuro.
+        else:
+            st.warning("Por favor, escribe un problema en el cuadro de texto o sube una imagen antes de continuar.")
